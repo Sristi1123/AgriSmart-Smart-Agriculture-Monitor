@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriSmart – Smart Agriculture Monitor</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
+
+    :root {
+        --primary: #2e7d32;
+        --primary-light: #4caf50;
+        --primary-dark: #1b5e20;
+        --accent: #ffab00;
+        --light-bg: #f5fef5;
+        --text-dark: #2d4c2d;
+        --text-light: #e8f5e9;
+        --card-bg: #ffffff;
+        --shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    body {
+        background: var(--light-bg);
+        color: var(--text-dark);
+        overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    nav {
+        width: 100%;
+        background: var(--primary);
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    nav.scrolled {
+        padding: 10px 40px;
+        background: rgba(46, 125, 50, 0.95);
+        backdrop-filter: blur(10px);
+    }
+
+    nav .logo {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    nav .logo i {
+        color: var(--accent);
+    }
+
+    nav ul {
+        list-style: none;
+        display: flex;
+        gap: 25px;
+    }
+
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+        transition: 0.3s;
+        position: relative;
+    }
+
+    nav ul li a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--accent);
+        transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover::after {
+        width: 100%;
+    }
+
+    nav ul li a:hover {
+        color: #c8f7c5;
+    }
+
+    .mobile-menu {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* HERO SECTION */
+    .hero {
+        width: 100%;
+        height: 90vh;
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6') center/cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(46,125,50,0.3) 0%, rgba(76,175,80,0.2) 100%);
+        z-index: 1;
+    }
+
+    .hero-text {
+        position: relative;
+        color: white;
+        z-index: 10;
+        max-width: 800px;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero-text h1 {
+        font-size: 52px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero-text p {
+        font-size: 20px;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .hero-text button {
+        padding: 15px 32px;
+        font-size: 18px;
+        background: var(--accent);
+        border: none;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .hero-text button:hover {
+        background: #ff8f00;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+
+    /* FEATURES SECTION */
+    .features {
+        padding: 80px 40px;
+        background: white;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 34px;
+        margin-bottom: 50px;
+        font-weight: 700;
+        color: var(--primary);
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        width: 80px;
+        height: 4px;
+        background: var(--accent);
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .feature-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+        text-align: center;
+        border-top: 4px solid var(--primary);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .feature-card i {
+        font-size: 48px;
+        color: var(--primary);
+        margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: var(--primary-dark);
+    }
+
+    .feature-card p {
+        color: var(--text-dark);
+        line-height: 1.6;
+    }
+
+    /* FLIP CARDS SECTION */
+    .flip-section {
+        padding: 80px 40px;
+        background: var(--light-bg);
+    }
+
+    .flip-container {
+        display: flex;
+        justify-content: center;
+        gap: 35px;
+        flex-wrap: wrap;
+        margin: 40px auto;
+        width: 90%;
+        max-width: 1200px;
+    }
+
+    .flip-card {
+        width: 280px;
+        height: 350px;
+        perspective: 1000px;
+    }
+
+    .flip-inner {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+    }
+
+    .flip-card:hover .flip-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-front, .flip-back {
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        position: absolute;
+        backface-visibility: hidden;
+        overflow: hidden;
+    }
+
+    .flip-front {
+        background: var(--primary);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        padding: 20px;
+    }
+
+    .flip-front i {
+        font-size: 60px;
+        margin-bottom: 20px;
+        color: var(--accent);
+    }
+
+    .flip-front h3 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .flip-back {
+        background: var(--card-bg);
+        padding: 25px;
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .flip-back h3 {
+        margin-bottom: 15px;
+        font-size: 22px;
+        color: var(--primary);
+    }
+
+    .flip-back p {
+        font-size: 15px;
+        color: var(--text-dark);
+        line-height: 1.6;
+    }
+
+    /* STATS SECTION */
+    .stats {
+        padding: 80px 40px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        text-align: center;
+    }
+
+    .stats-container {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .stat-item {
+        padding: 20px;
+    }
+
+    .stat-number {
+        font-size: 48px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: var(--accent);
+    }
+
+    .stat-label {
+        font-size: 18px;
+        opacity: 0.9;
+    }
+
+    /* TESTIMONIALS */
+    .testimonials {
+        padding: 80px 40px;
+        background: white;
+    }
+
+    .testimonial-container {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .testimonial-slider {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+    }
+
+    .testimonial {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 40px;
+        background: var(--light-bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+    }
+
+    .testimonial.active {
+        opacity: 1;
+    }
+
+    .testimonial i {
+        font-size: 36px;
+        color: var(--accent);
+        margin-bottom: 20px;
+    }
+
+    .testimonial p {
+        font-style: italic;
+        margin-bottom: 20px;
+        line-height: 1.6;
+        font-size: 18px;
+        max-width: 600px;
+    }
+
+    .testimonial-author {
+        font-weight: 600;
+        color: var(--primary);
+        font-size: 16px;
+    }
+
+    .slider-controls {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    .slider-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .slider-dot.active {
+        background: var(--primary-dark);
+        transform: scale(1.2);
+    }
+
+    /* CTA SECTION */
+    .cta {
+        padding: 80px 40px;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449') center/cover no-repeat;
+        color: white;
+        text-align: center;
+    }
+
+    .cta h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+
+    .cta p {
+        font-size: 18px;
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .cta-btn {
+        padding: 15px 30px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .cta-btn.primary {
+        background: var(--accent);
+        color: white;
+        border: none;
+    }
+
+    .cta-btn.secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+    }
+
+    .cta-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .cta-btn.primary:hover {
+        background: #ff8f00;
+    }
+
+    .cta-btn.secondary:hover {
+        background: rgba(255,255,255,0.1);
+    }
+
+    /* FOOTER */
+    footer {
+        background: var(--primary-dark);
+        padding: 50px 40px 25px;
+        color: white;
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto 40px;
+    }
+
+    .footer-column h3 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .footer-column h3::after {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 3px;
+        background: var(--accent);
+        bottom: 0;
+        left: 0;
+    }
+
+    .footer-column p {
+        margin-bottom: 15px;
+        line-height: 1.6;
+        opacity: 0.8;
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: var(--text-light);
+        text-decoration: none;
+        transition: 0.3s;
+        opacity: 0.8;
+    }
+
+    .footer-links a:hover {
+        opacity: 1;
+        color: var(--accent);
+        padding-left: 5px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+        background: var(--accent);
+        transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 25px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        font-size: 14px;
+        opacity: 0.7;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+        nav {
+            padding: 15px 20px;
+        }
+        
+        nav ul {
+            display: none;
+            position: absolute;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: var(--primary);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        nav ul.active {
+            display: flex;
+        }
+        
+        .mobile-menu {
+            display: block;
+        }
+        
+        .hero-text h1 {
+            font-size: 36px;
+        }
+        
+        .hero-text p {
+            font-size: 18px;
+        }
+        
+        .features, .flip-section, .stats, .testimonials, .cta {
+            padding: 60px 20px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+        }
+        
+        .flip-container {
+            gap: 20px;
+        }
+        
+        .stats-container {
+            gap: 30px;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .cta-btn {
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .testimonial-slider {
+            height: 350px;
+        }
+        
+        .testimonial p {
+            font-size: 16px;
+        }
+    }
+</style>
+<!-- In your main website's navigation -->
+<!-- <li><a href="http://localhost:8501" target="_blank">Dashboard</a></li> -->
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+    <div class="logo">
+        <i class="fas fa-seedling"></i>
+        AgriSmart
+    </div>
+    <div class="mobile-menu">
+        <i class="fas fa-bars"></i>
+    </div>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="scheme.html">Govt Schemes</a></li>
+        <!-- #<li><a href="#">Analytics</a></li> -->
+        <li><a href="support.html">Support</a></li>
+    </ul>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-text">
+        <h1>Smart Agriculture Monitor</h1>
+        <p>Track crop health, analyze soil conditions, and get smart recommendations powered by satellite-like insights.</p>
+        <a href="dashboard.html">
+    <button>Explore Dashboard</button>
+</a>
+
+    </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="features">
+    <h2 class="section-title">Our Features</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <i class="fas fa-satellite-dish"></i>
+            <h3>Satellite Monitoring</h3>
+            <p>Get real-time field insights with high-resolution satellite imagery and advanced analytics.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-tint"></i>
+            <h3>Smart Irrigation</h3>
+            <p>Optimize water usage with AI-powered irrigation recommendations based on soil moisture data.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-bug"></i>
+            <h3>Pest Detection</h3>
+            <p>Early detection of pest infestations with image recognition and predictive analytics.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FLIP CARDS -->
+<section class="flip-section">
+    <h2 class="section-title">Crop Health Insights</h2>
+    <div class="flip-container">
+        <div class="flip-card">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <i class="fas fa-wheat-awn"></i>
+                    <h3>Wheat Health</h3>
+                </div>
+                <div class="flip-back">
+                    <h3>Wheat Health</h3>
+                    <p>Wheat thrives with moderate moisture and cool temperatures. Keep soil nutrients balanced for best yield. Monitor for signs of rust and mildew in humid conditions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flip-card">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <i class="fas fa-corn"></i>
+                    <h3>Corn Condition</h3>
+                    
+                </div>
+                <div class="flip-back">
+                    <h3>Corn Condition</h3>
+                    <p>Corn requires warm weather, healthy soil, and ample water. Watch for early signs of fungal infections and nutrient deficiencies during growth stages.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flip-card">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <i class="fas fa-bowl-rice"></i>
+                    <h3>Rice Growth</h3>
+                </div>
+                <div class="flip-back">
+                    <h3>Rice Growth</h3>
+                    <p>Rice needs high moisture and warm temperature. Keep water levels steady for maximum health. Monitor for bacterial leaf blight in flooded conditions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS SECTION -->
+<section class="stats">
+    <h2 class="section-title" style="color: white;">Our Impact</h2>
+    <div class="stats-container">
+        <div class="stat-item">
+            <div class="stat-number" id="farmersCount">0</div>
+            <div class="stat-label">Farmers Empowered</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="acresCount">0</div>
+            <div class="stat-label">Acres Monitored</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="yieldCount">0</div>
+            <div class="stat-label">Yield Increased</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="waterCount">0</div>
+            <div class="stat-label">Water Saved (Gallons)</div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+    <h2 class="section-title">What Farmers Say</h2>
+    <div class="testimonial-container">
+        <div class="testimonial-slider">
+            <div class="testimonial active">
+                <i class="fas fa-quote-left"></i>
+                <p>"AgriSmart has completely transformed how I manage my crops. The insights have helped me increase yield by 23% while reducing water usage significantly."</p>
+                <div class="testimonial-author">- Robert Johnson, Kansas</div>
+            </div>
+            <div class="testimonial">
+                <i class="fas fa-quote-left"></i>
+                <p>"The pest detection feature saved my entire soybean crop last season. Early warning allowed me to take action before it was too late."</p>
+                <div class="testimonial-author">- Maria Gonzalez, California</div>
+            </div>
+            <div class="testimonial">
+                <i class="fas fa-quote-left"></i>
+                <p>"As a third-generation farmer, I'm always skeptical of new technology. But AgriSmart proved its worth in the first season alone. Incredible platform!"</p>
+                <div class="testimonial-author">- James Wilson, Iowa</div>
+            </div>
+        </div>
+        <div class="slider-controls">
+            <div class="slider-dot active" data-index="0"></div>
+            <div class="slider-dot" data-index="1"></div>
+            <div class="slider-dot" data-index="2"></div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta">
+    <h2>Ready to Transform Your Farming?</h2>
+    <p>Join thousands of farmers who are already using AgriSmart to optimize their operations and increase productivity.</p>
+    <div class="cta-buttons">
+        <a href="trial.html" class="cta-btn primary">Start Free Trial</a>
+
+        <a href="demo.html"><button class="cta-btn secondary">Schedule a Demo</button></a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-column">
+            <h3>About AgriSmart</h3>
+            <p>AgriSmart leverages cutting-edge technology to provide farmers with actionable insights for smarter agriculture decisions.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Control Panel</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Resources</h3>
+            <ul class="footer-links">
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Case Studies</a></li>
+                <li><a href="#">Documentation</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Community</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Farm Road, Agritown, USA</p>
+            <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            <p><i class="fas fa-envelope"></i> info@farmsense.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 AgriSmart Agriculture Monitor. All Rights Reserved.</p>
+    </div>
+</footer>
+
+
+<script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu').addEventListener('click', function() {
+        document.querySelector('nav ul').classList.toggle('active');
+    });
+
+    // Animated counter for stats
+    function animateCounter(elementId, finalValue, duration) {
+        let start = 0;
+        const element = document.getElementById(elementId);
+        const increment = finalValue / (duration / 16); // 60fps
+        
+        const timer = setInterval(() => {
+            start += increment;
+            if (start >= finalValue) {
+                element.textContent = finalValue.toLocaleString();
+                clearInterval(timer);
+            } else {
+                element.textContent = Math.floor(start).toLocaleString();
+            }
+        }, 16);
+    }
+
+    // Start counters when stats section is in view
+    const statsSection = document.querySelector('.stats');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter('farmersCount', 12500, 2000);
+                animateCounter('acresCount', 850000, 2000);
+                animateCounter('yieldCount', 42, 2000);
+                animateCounter('waterCount', 12500000, 2000);
+                observer.unobserve(statsSection);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    observer.observe(statsSection);
+
+    // Testimonial slider functionality
+    const testimonials = document.querySelectorAll('.testimonial');
+    const dots = document.querySelectorAll('.slider-dot');
+    let currentTestimonial = 0;
+    let testimonialInterval;
+
+    function showTestimonial(index) {
+        // Hide all testimonials
+        testimonials.forEach(testimonial => testimonial.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        // Show selected testimonial
+        testimonials[index].classList.add('active');
+        dots[index].classList.add('active');
+        currentTestimonial = index;
+    }
+    // Auto slide function
+    function startSlider() {
+        testimonialInterval = setInterval(() => {
+            let nextIndex = (currentTestimonial + 1) % testimonials.length;
+            showTestimonial(nextIndex);
+        }, 4000); // 4 seconds
+    }
+
+    // Dot click controls
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            clearInterval(testimonialInterval); // stop auto slide when user clicks
+            showTestimonial(parseInt(dot.dataset.index));
+            startSlider(); // restart
+        });
+    });
+
+    // Start sliding when loaded
+    startSlider();
+
+    function nextTestimonial() {
+        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        showTestimonial(currentTestimonial);
+    }
+
+    // Initialize testimonial slider
+    function initTestimonialSlider() {
+        // Set up dot navigation
+        dots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                const index = parseInt(this.getAttribute('data-index'));
+                showTestimonial(index);
+                
+                // Reset the auto-advance timer when user manually selects a testimonial
+                clearInterval(testimonialInterval);
+                testimonialInterval = setInterval(nextTestimonial, 4000);
+            });
+        });
+
+        // Start auto-advancing testimonials every 4 seconds
+        testimonialInterval = setInterval(nextTestimonial, 4000);
+    }
+
+    // Initialize the testimonial slider when page loads
+    document.addEventListener('DOMContentLoaded', initTestimonialSlider);
+
+    // Button hover effects
+    document.querySelectorAll('button').forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+</script>
+</body>
+</html>

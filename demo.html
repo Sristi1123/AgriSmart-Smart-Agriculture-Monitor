@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Request a Demo — FarmSight</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root{
+      --green-700:#2d7a32;
+      --green-600:#36994a;
+      --green-500: #4caf50;
+      --green-400: #66bb6a;
+      --accent:#ffab00;
+      --accent-light: #ffd54f;
+      --card-bg: rgba(255,255,255,0.98);
+      --muted:#6b7280;
+      --success:#1e8e3e;
+      --danger:#e04b4b;
+      --shadow: 0 12px 30px rgba(0,0,0,0.16);
+      --hover-shadow: 0 18px 40px rgba(0,0,0,0.22);
+    }
+
+    /* Page background: soft farming gradient + subtle pattern */
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    
+    body{
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      background: linear-gradient(135deg, #3ca55c 0%, #b5ac49 100%);
+      padding:20px;
+      position: relative;
+      overflow: auto;
+      min-height: 100vh;
+    }
+
+    /* Animated Background Elements */
+    .bg-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bg-element {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: float 20s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+
+    /* Container card */
+    .demo-card{
+      width:100%;
+      max-width:540px;
+      background:var(--card-bg);
+      border-radius:20px;
+      padding:32px;
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.18);
+      position:relative;
+      overflow:visible;
+      animation: slideUp 0.8s ease-out;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin: 20px 0;
+    }
+
+    .demo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--hover-shadow);
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Decorative header */
+    .demo-card__head{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:24px;
+    }
+    
+    .logo{
+      width:64px;
+      height:64px;
+      border-radius:16px;
+      background:linear-gradient(135deg, var(--green-700), var(--green-600));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+      font-size:24px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.15);
+      animation: pulse 2s infinite ease-in-out;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    h1{
+      margin:0;
+      font-size:24px;
+      color:#123820;
+      font-weight: 700;
+    }
+    
+    p.lead{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height: 1.5;
+    }
+
+    /* Input group with icon */
+    .field{
+      display:flex;
+      flex-direction:column;
+      margin-top:16px;
+      animation: fadeIn 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    
+    .label{
+      font-size:14px;
+      color:#274c2b;
+      margin-bottom:8px;
+      font-weight:600;
+    }
+    
+    .input-wrap{
+      display:flex;
+      align-items:center;
+      background:#f7fbf7;
+      border-radius:12px;
+      padding:12px 16px;
+      border:1px solid rgba(32,64,32,0.08);
+      transition: all 0.3s ease;
+    }
+    
+    .input-wrap:focus-within{
+      box-shadow:0 6px 18px rgba(45,122,50,0.12);
+      border-color:var(--green-700);
+      transform: translateY(-2px);
+    }
+    
+    .icon{
+      width:32px;
+      height:32px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-right:12px;
+      flex:0 0 32px;
+      color: var(--green-700);
+    }
+    
+    input[type="text"], input[type="email"], input[type="date"], input[type="time"]{
+      border:0;
+      background:transparent;
+      outline:none;
+      font-size:16px;
+      color:#123820;
+      padding:8px;
+      width:100%;
+      transition: all 0.3s ease;
+    }
+
+    input::placeholder {
+      color: rgba(18, 56, 32, 0.5);
+    }
+
+    /* Slots area */
+    .slots{
+      margin-top:20px;
+      animation: fadeIn 0.6s ease-out 0.4s both;
+    }
+    
+    .slots-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    
+    .slot{
+      padding:14px 16px;
+      border-radius:12px;
+      background:#f3f9f3;
+      border:1px solid rgba(20,90,30,0.08);
+      cursor:pointer;
+      text-align:center;
+      font-weight:600;
+      color:#123820;
+      box-shadow:0 4px 8px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      user-select:none;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .slot::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .slot:hover::before {
+      left: 100%;
+    }
+    
+    .slot:hover{
+      transform:translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    
+    .slot.booked{
+      background:#fff2f2;
+      border-color:rgba(224,75,75,0.12);
+      color:var(--danger);
+      cursor:not-allowed;
+      opacity:0.8;
+    }
+    
+    .slot.selected{
+      background:linear-gradient(135deg, var(--green-600), var(--green-700));
+      color:white;
+      box-shadow:0 10px 24px rgba(45,122,50,0.2);
+      transform: translateY(-2px);
+    }
+
+    .slot.small{
+      font-size:15px;
+      padding:12px 14px;
+    }
+
+    .helper{
+      font-size:14px;
+      color:var(--muted);
+      margin-top:12px;
+    }
+
+    /* Submit */
+    .actions{
+      display:flex;
+      gap:12px;
+      margin-top:24px;
+    }
+    
+    .btn{
+      flex:1;
+      padding:16px 20px;
+      border-radius:12px;
+      border:0;
+      color:#fff;
+      background:var(--green-700);
+      cursor:pointer;
+      font-weight:700;
+      font-size:16px;
+      box-shadow:0 8px 20px rgba(45,122,50,0.12);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.7s ease;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn:hover{
+      background:linear-gradient(135deg, var(--green-700), var(--green-600));
+      transform:translateY(-3px);
+      box-shadow:0 12px 24px rgba(45,122,50,0.18);
+    }
+    
+    .btn.secondary{
+      background:transparent;
+      color:#123820;
+      border:1px solid rgba(18,56,32,0.12);
+      box-shadow:none;
+    }
+    
+    .btn.secondary:hover {
+      background: rgba(18,56,32,0.05);
+      transform: translateY(-3px);
+    }
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(2,6,1,0.65);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:80;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .3s ease;
+      backdrop-filter: blur(4px);
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .modal-backdrop.show{
+      opacity:1;
+      pointer-events:auto;
+    }
+    
+    .modal{
+      width:90%;
+      max-width:440px;
+      background:white;
+      border-radius:16px;
+      padding:28px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.3);
+      transform:translateY(20px) scale(0.95);
+      transition:transform .3s ease;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin: auto;
+    }
+    
+    .modal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--green-700), var(--accent));
+    }
+    
+    .modal-backdrop.show .modal{
+      transform:translateY(0) scale(1);
+    }
+
+    .modal h3{
+      margin:16px 0 12px 0;
+      color:#163b1d;
+      font-size: 24px;
+    }
+    
+    .modal p{
+      margin:0;
+      color:var(--muted);
+      font-size:16px;
+      line-height: 1.6;
+    }
+    
+    .modal .ok{
+      margin-top:24px;
+      padding:14px 24px;
+      background:var(--green-700);
+      color:#fff;
+      border:0;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 16px rgba(45,122,50,0.2);
+    }
+    
+    .modal .ok:hover {
+      background: var(--green-600);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(45,122,50,0.3);
+    }
+
+    .success-icon {
+      font-size: 64px;
+      color: var(--green-600);
+      animation: bounce 1s ease-out;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-20px);}
+      60% {transform: translateY(-10px);}
+    }
+
+    /* Form validation styles */
+    .input-wrap.error {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(224, 75, 75, 0.1);
+    }
+
+    .error-message {
+      color: var(--danger);
+      font-size: 13px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      body {
+        padding: 15px;
+        align-items: flex-start;
+      }
+      
+      .demo-card {
+        padding: 24px 20px;
+        margin: 10px 0;
+      }
+      
+      .demo-card__head {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+      }
+      
+      .actions {
+        flex-direction: column;
+      }
+      
+      .slots-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      .demo-card {
+        padding: 20px 16px;
+      }
+      
+      .input-wrap {
+        padding: 10px 14px;
+      }
+      
+      .btn {
+        padding: 14px 16px;
+        font-size: 15px;
+      }
+      
+      .modal {
+        padding: 20px;
+      }
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--green-600);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--green-700);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Background Elements -->
+  <div class="bg-elements" id="bgElements"></div>
+
+  <main class="demo-card" role="main" aria-labelledby="pageTitle">
+    <div class="demo-card__head">
+      <div class="logo" aria-hidden="true">
+        <i class="fas fa-seedling"></i>
+      </div>
+      <div>
+        <h1 id="pageTitle">🌾 Request a Demo</h1>
+        <p class="lead">Schedule a personalized demo — we'll show how FarmSight can transform your farming operations.</p>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <form id="demoForm" onsubmit="return false" novalidate>
+
+      <!-- Name -->
+      <div class="field" style="animation-delay: 0.1s">
+        <label class="label" for="name">Your name</label>
+        <div class="input-wrap" aria-hidden="false">
+          <span class="icon" aria-hidden="true">
+            <i class="fas fa-user"></i>
+          </span>
+          <input id="name" name="name" type="text" placeholder="e.g., Ramesh Kumar" aria-label="Your name" required>
+        </div>
+        <div class="error-message" id="nameError">Please enter your name</div>
+      </div>
+
+      <!-- Email -->
+      <div class="field" style="animation-delay: 0.2s">
+        <label class="label" for="email">Email</label>
+        <div class="input-wrap">
+          <span class="icon" aria-hidden="true">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <input id="email" name="email" type="email" placeholder="e.g., ramesh@example.com" aria-label="Email" required>
+        </div>
+        <div class="error-message" id="emailError">Please enter a valid email address</div>
+      </div>
+
+      <!-- Date -->
+      <div class="field" style="animation-delay: 0.3s">
+        <label class="label" for="date">Choose a date</label>
+        <div class="input-wrap">
+          <span class="icon" aria-hidden="true">
+            <i class="fas fa-calendar-alt"></i>
+          </span>
+          <input id="date" name="date" type="date" aria-label="Demo date" required>
+        </div>
+        <div id="availabilityNote" class="helper" aria-live="polite">Pick a date to see available time slots.</div>
+      </div>
+
+      <!-- Slots -->
+      <div class="field slots" id="slotsSection" aria-hidden="true">
+        <label class="label">Available time slots</label>
+        <div class="slots-grid" id="slotsGrid" role="list"></div>
+        <div class="helper" id="slotHelper">Click a green slot to choose it.</div>
+      </div>
+
+      <!-- Additional Information (Optional) -->
+      <div class="field" style="animation-delay: 0.5s">
+        <label class="label" for="farmType">Farm Type (Optional)</label>
+        <div class="input-wrap">
+          <span class="icon" aria-hidden="true">
+            <i class="fas fa-tractor"></i>
+          </span>
+          <select id="farmType" name="farmType">
+            <option value="">Select farm type</option>
+            <option value="crops">Crop Farming</option>
+            <option value="livestock">Livestock</option>
+            <option value="mixed">Mixed Farming</option>
+            <option value="organic">Organic Farming</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Message (Optional) -->
+      <div class="field" style="animation-delay: 0.6s">
+        <label class="label" for="message">Special Requirements (Optional)</label>
+        <div class="input-wrap">
+          <span class="icon" aria-hidden="true">
+            <i class="fas fa-comment"></i>
+          </span>
+          <input id="message" name="message" type="text" placeholder="Any specific features you'd like to see?" aria-label="Special requirements">
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button type="button" class="btn" id="submitBtn">
+          <i class="fas fa-calendar-check"></i>
+          Request Demo
+        </button>
+        <button type="button" class="btn secondary" id="resetBtn">
+          <i class="fas fa-redo"></i>
+          Reset Form
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <!-- Confirmation Modal -->
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-hidden="true" aria-modal="true">
+    <div class="modal" role="document">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h3 id="modalTitle">Demo Scheduled Successfully!</h3>
+      <p id="modalMessage">We have scheduled your demo.</p>
+      <button class="ok" id="modalOk">
+        <i class="fas fa-thumbs-up"></i>
+        Great, Thank You!
+      </button>
+    </div>
+  </div>
+
+  <script>
+    /***********************
+     * Config & Utilities
+     ***********************/
+    const TIME_SLOTS = ["10:00 AM", "12:00 PM", "2:00 PM", "4:00 PM"];
+    const slotsGrid = document.getElementById('slotsGrid');
+    const slotsSection = document.getElementById('slotsSection');
+    const availabilityNote = document.getElementById('availabilityNote');
+    const dateInput = document.getElementById('date');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    let selectedSlot = null;
+    let currentBooked = new Set();
+
+    // Create animated background elements
+    function createBackgroundElements() {
+      const bg = document.getElementById('bgElements');
+      const colors = [
+        'rgba(255, 255, 255, 0.1)',
+        'rgba(76, 175, 80, 0.1)',
+        'rgba(255, 171, 0, 0.1)'
+      ];
+      
+      for (let i = 0; i < 15; i++) {
+        const element = document.createElement('div');
+        element.classList.add('bg-element');
+        
+        // Random properties
+        const size = Math.random() * 100 + 50;
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const delay = Math.random() * 15;
+        const duration = Math.random() * 10 + 15;
+        
+        element.style.width = `${size}px`;
+        element.style.height = `${size}px`;
+        element.style.left = `${left}%`;
+        element.style.top = `${top}%`;
+        element.style.background = color;
+        element.style.animationDelay = `${delay}s`;
+        element.style.animationDuration = `${duration}s`;
+        
+        bg.appendChild(element);
+      }
+    }
+
+    // Deterministic "random" booked slots per date:
+    function seededBookedSlots(dateStr){
+      if (!dateStr) return new Set();
+      // simple hash
+      let h = 0;
+      for (let i=0;i<dateStr.length;i++){ h = (h*31 + dateStr.charCodeAt(i)) >>> 0; }
+      // use hash to choose how many booked (0..2)
+      const count = (h % 3); // 0,1,2
+      const booked = new Set();
+      let idx = h;
+      while (booked.size < count){
+        const pick = idx % TIME_SLOTS.length;
+        booked.add(TIME_SLOTS[pick]);
+        idx = (idx * 1103515245 + 12345) >>> 0; // LCG
+      }
+      return booked;
+    }
+
+    // Render slots with booked marks
+    function renderSlotsForDate(dateStr){
+      slotsGrid.innerHTML = "";
+      selectedSlot = null;
+      currentBooked = seededBookedSlots(dateStr);
+
+      TIME_SLOTS.forEach((slot, index) => {
+        const div = document.createElement('button');
+        div.setAttribute('role','listitem');
+        div.className = 'slot small';
+        div.textContent = slot;
+        div.style.animationDelay = `${index * 0.1}s`;
+
+        if (currentBooked.has(slot)){
+          div.classList.add('booked');
+          div.setAttribute('aria-disabled','true');
+          div.title = 'Booked';
+          div.innerHTML = `<i class="fas fa-times-circle"></i> ${slot}`;
+        } else {
+          div.addEventListener('click', () => {
+            // select/unselect
+            if (selectedSlot === slot){
+              selectedSlot = null;
+              div.classList.remove('selected');
+            } else {
+              // unselect previous
+              const prev = slotsGrid.querySelector('.slot.selected');
+              if (prev) prev.classList.remove('selected');
+              selectedSlot = slot;
+              div.classList.add('selected');
+            }
+          });
+        }
+        slotsGrid.appendChild(div);
+      });
+    }
+
+    // Update UI when date changes
+    dateInput.addEventListener('change', (e) => {
+      const date = e.target.value;
+      if (!date){
+        slotsSection.setAttribute('aria-hidden','true');
+        availabilityNote.textContent = 'Pick a date to see available time slots.';
+        return;
+      }
+      // Show slot section
+      slotsSection.setAttribute('aria-hidden','false');
+      availabilityNote.textContent = 'Choose one available slot below.';
+      renderSlotsForDate(date);
+    });
+
+    // Reset handler
+    resetBtn.addEventListener('click', () => {
+      document.getElementById('demoForm').reset();
+      slotsGrid.innerHTML = '';
+      slotsSection.setAttribute('aria-hidden','true');
+      availabilityNote.textContent = 'Pick a date to see available time slots.';
+      selectedSlot = null;
+      
+      // Remove error states
+      document.querySelectorAll('.input-wrap').forEach(el => {
+        el.classList.remove('error');
+      });
+      document.querySelectorAll('.error-message').forEach(el => {
+        el.style.display = 'none';
+      });
+    });
+
+    // Modal helpers
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalOk = document.getElementById('modalOk');
+
+    function showModal(title, message){
+      modalTitle.textContent = title;
+      modalMessage.textContent = message;
+      modalBackdrop.classList.add('show');
+      modalBackdrop.setAttribute('aria-hidden','false');
+      modalOk.focus();
+    }
+    
+    function hideModal(){
+      modalBackdrop.classList.remove('show');
+      modalBackdrop.setAttribute('aria-hidden','true');
+    }
+    
+    modalOk.addEventListener('click', () => hideModal());
+    modalBackdrop.addEventListener('click', (ev) => {
+      if (ev.target === modalBackdrop) hideModal();
+    });
+
+    // Form validation
+    function validateForm() {
+      let isValid = true;
+      
+      // Name validation
+      const name = document.getElementById('name').value.trim();
+      const nameError = document.getElementById('nameError');
+      const nameInput = document.getElementById('name').closest('.input-wrap');
+      
+      if (!name) {
+        nameInput.classList.add('error');
+        nameError.style.display = 'block';
+        isValid = false;
+      } else {
+        nameInput.classList.remove('error');
+        nameError.style.display = 'none';
+      }
+      
+      // Email validation
+      const email = document.getElementById('email').value.trim();
+      const emailError = document.getElementById('emailError');
+      const emailInput = document.getElementById('email').closest('.input-wrap');
+      
+      if (!email || !validateEmail(email)) {
+        emailInput.classList.add('error');
+        emailError.style.display = 'block';
+        isValid = false;
+      } else {
+        emailInput.classList.remove('error');
+        emailError.style.display = 'none';
+      }
+      
+      // Date validation
+      const date = dateInput.value;
+      if (!date) {
+        alert('Please choose a date.');
+        isValid = false;
+      }
+      
+      // Slot validation
+      if (!selectedSlot) {
+        alert('Please select an available time slot.');
+        isValid = false;
+      }
+      
+      return isValid;
+    }
+
+    // Form submit
+    submitBtn.addEventListener('click', () => {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const date = dateInput.value;
+      const farmType = document.getElementById('farmType').value;
+      const message = document.getElementById('message').value;
+
+      // Validate form
+      if (!validateForm()) return;
+
+      // Prepare confirmation text
+      const dt = new Date(date + 'T00:00:00');
+      const friendlyDate = dt.toLocaleDateString(undefined, { weekday:'short', year:'numeric', month:'short', day:'numeric' });
+
+      let confirmationMessage = `${name}, your demo is scheduled on ${friendlyDate} at ${selectedSlot}. We will contact you at ${email} to confirm and provide further details.`;
+      
+      if (farmType) {
+        confirmationMessage += ` We've noted your farm type: ${document.getElementById('farmType').options[document.getElementById('farmType').selectedIndex].text}.`;
+      }
+      
+      if (message) {
+        confirmationMessage += ` We'll address your requirements during the demo.`;
+      }
+
+      showModal('Demo Scheduled Successfully! 🌱', confirmationMessage);
+
+      // Reset form after confirmation
+      setTimeout(() => {
+        document.getElementById('demoForm').reset();
+        slotsGrid.innerHTML = '';
+        slotsSection.setAttribute('aria-hidden','true');
+        selectedSlot = null;
+      }, 2000);
+    });
+
+    // Simple email check
+    function validateEmail(email){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // Accessibility: allow keyboard selection of slots
+    document.addEventListener('keydown', (e) => {
+      if (!slotsSection || slotsSection.getAttribute('aria-hidden') === 'true') return;
+      const focusable = Array.from(slotsGrid.querySelectorAll('.slot:not(.booked)'));
+      if (focusable.length === 0) return;
+      const active = document.activeElement;
+      let idx = focusable.indexOf(active);
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        idx = (idx + 1) % focusable.length;
+        focusable[idx].focus();
+        e.preventDefault();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        idx = (idx <= 0 ? focusable.length - 1 : idx - 1);
+        focusable[idx].focus();
+        e.preventDefault();
+      } else if (e.key === 'Enter' && active.classList.contains('slot') && !active.classList.contains('booked')) {
+        active.click();
+        e.preventDefault();
+      }
+    });
+
+    // Initialize with today's date selected
+    (function init(){
+      createBackgroundElements();
+      
+      // Add staggered animation to form fields
+      const formFields = document.querySelectorAll('.field');
+      formFields.forEach((field, index) => {
+        field.style.animationDelay = `${0.1 + (index * 0.1)}s`;
+      });
+      
+      const today = new Date().toISOString().slice(0,10);
+      dateInput.value = today;
+      // trigger change to render slots
+      setTimeout(() => {
+        dateInput.dispatchEvent(new Event('change'));
+      }, 500);
+    })();
+  </script>
+</body>
+</html>

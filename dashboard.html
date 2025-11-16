@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard – AgriSmart</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* -----------------------------
+   GLOBAL STYLES
+------------------------------*/
+:root {
+    --primary: #2e7d32;
+    --primary-light: #4caf50;
+    --primary-dark: #1b5e20;
+    --accent: #ffab00;
+    --light-bg: #f5fef5;
+    --text-dark: #2d4c2d;
+    --text-light: #e8f5e9;
+    --card-bg: #ffffff;
+    --shadow: 0 8px 25px rgba(0,0,0,0.15);
+    --hover-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: linear-gradient(#d7ffd9, #f5fff5);
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* -----------------------------
+   NAVBAR
+------------------------------*/
+nav {
+    width: 100%;
+    background: var(--primary);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+nav.scrolled {
+    padding: 10px 40px;
+    background: rgba(46, 125, 50, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+nav .logo {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+nav .logo i {
+    color: var(--accent);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    transition: 0.3s;
+    position: relative;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+nav ul li a:hover {
+    color: #c8f7c5;
+}
+
+.mobile-menu {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* -----------------------------
+   ANIMATED BACKGROUND
+------------------------------*/
+.animated-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.bg-element {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(76, 175, 80, 0.1);
+    animation: float 15s infinite ease-in-out;
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+    100% { transform: translateY(0) rotate(360deg); }
+}
+
+/* -----------------------------
+   DASHBOARD HEADER
+------------------------------*/
+.header {
+    margin-top: 100px;
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+/* -----------------------------
+   UPLOAD BOX
+------------------------------*/
+.upload-box {
+    width: 70%;
+    margin: 40px auto;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 2px dashed #c8e6c9;
+}
+
+.upload-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+.upload-box h2 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.upload-box span {
+    color: var(--text-dark);
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.upload-area {
+    margin: 25px 0;
+    padding: 40px 20px;
+    border: 2px dashed #c8e6c9;
+    border-radius: 10px;
+    background: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.upload-area:hover {
+    border-color: var(--primary);
+    background: #f0f9f4;
+}
+
+.upload-area i {
+    font-size: 48px;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.upload-area p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.upload-area span {
+    font-size: 14px;
+    color: var(--text-dark);
+    opacity: 0.7;
+}
+
+.upload-box input {
+    display: none;
+}
+
+.upload-box button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    border: none;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.upload-box button:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.upload-box button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* -----------------------------
+   RESULT CARDS
+------------------------------*/
+.result-section {
+    width: 80%;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--primary);
+}
+
+.card:nth-child(2)::before {
+    background: var(--accent);
+}
+
+.card h3 {
+    margin: 0 0 15px;
+    font-size: 18px;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card h3 i {
+    color: var(--primary);
+}
+
+.card:nth-child(2) h3 i {
+    color: var(--accent);
+}
+
+.card p {
+    font-size: 15px;
+    color: var(--text-dark);
+    opacity: 0.8;
+}
+
+.card .value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 15px 0;
+}
+
+.card:nth-child(2) .value {
+    color: var(--accent);
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.status.good {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status.moderate {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+.status.poor {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* -----------------------------
+   CHARTS
+------------------------------*/
+.chart-container {
+    width: 80%;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.chart-box {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s;
+}
+
+.chart-box:hover {
+    transform: translateY(-5px);
+}
+
+.chart-box h2 {
+    color: var(--primary);
+    margin-bottom: 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chart-placeholder {
+    height: 300px;
+    border-radius: 10px;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: var(--text-dark);
+    opacity: 0.7;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-placeholder canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* -----------------------------
+   RECOMMENDATIONS
+------------------------------*/
+.recommendations {
+    width: 80%;
+    margin: 40px auto;
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.recommendations h2 {
+    color: var(--primary);
+    margin-bottom: 20px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.crop-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.crop-card {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: 1px solid #e0e0e0;
+}
+
+.crop-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background: #f0f9f4;
+}
+
+.crop-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.crop-card h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.crop-card p {
+    font-size: 14px;
+    color: var(--text-dark);
+    opacity: 0.7;
+}
+
+/* -----------------------------
+   LOADING ANIMATION
+------------------------------*/
+.loading {
+    display: none;
+    text-align: center;
+    padding: 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(46, 125, 50, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* -----------------------------
+   FOOTER
+------------------------------*/
+footer {
+    background: var(--primary-dark);
+    padding: 50px 40px 25px;
+    color: white;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+}
+
+.footer-column h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-column h3::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+    bottom: 0;
+    left: 0;
+}
+
+.footer-column p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: 0.3s;
+    opacity: 0.8;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+    color: var(--accent);
+    padding-left: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: var(--accent);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+/* -----------------------------
+   RESPONSIVE DESIGN
+------------------------------*/
+@media (max-width: 1200px) {
+    .result-section, .chart-container {
+        width: 90%;
+    }
+    
+    .crop-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .result-section, .chart-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .upload-box {
+        width: 85%;
+    }
+    
+    .crop-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 15px 20px;
+    }
+    
+    nav ul {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: var(--primary);
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    }
+    
+    nav ul.active {
+        display: flex;
+    }
+    
+    .mobile-menu {
+        display: block;
+    }
+    
+    .header h1 {
+        font-size: 28px;
+    }
+    
+    .header p {
+        font-size: 16px;
+    }
+    
+    .upload-box {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .result-section, .chart-container, .recommendations {
+        width: 95%;
+    }
+    
+    .crop-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- ANIMATED BACKGROUND -->
+<div class="animated-bg" id="animatedBg"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+    <div class="logo">
+        <i class="fas fa-seedling"></i>
+        AgriSmart
+    </div>
+    <div class="mobile-menu">
+        <i class="fas fa-bars"></i>
+    </div>
+    <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="dashboard.html" style="color:#ffab00;">Dashboard</a></li>
+        <li><a href="scheme.html">Govt Schemes</a></li>
+        <li><a href="support.html">Support</a></li>
+        
+    </ul>
+</nav>
+
+
+<!-- ---------------- UPLOAD AREA ---------------- -->
+<div class="upload-box">
+    <h2>Upload PDF Report</h2>
+    <span>Select your PDF & view full analysis</span>
+    
+    <div class="upload-area" id="uploadArea">
+        <i class="fas fa-file-upload"></i>
+        <p>Drag & Drop your PDF here</p>
+        <span>or click to browse files</span>
+        <input type="file" id="pdfFile" accept=".pdf">
+    </div>
+    
+    <button id="analyzeButton" onclick="uploadPDF()">
+        <i class="fas fa-chart-line"></i>
+        Upload & Analyze
+    </button>
+    
+    <div class="loading" id="loadingIndicator">
+        <div class="spinner"></div>
+        <p>Analyzing your soil report...</p>
+    </div>
+</div>
+
+<!-- ---------------- RESULT CARDS ---------------- -->
+<div class="result-section">
+    <div class="card">
+        <h3><i class="fas fa-vial"></i> Soil pH</h3>
+        <p>Acidity/Alkalinity Level</p>
+        <div class="value" id="result_ph">--</div>
+        <span class="status" id="ph_status">--</span>
+    </div>
+
+    <div class="card">
+        <h3><i class="fas fa-seedling"></i> Nutrient Score</h3>
+        <p>Overall Soil Health</p>
+        <div class="value" id="result_nutrients">--</div>
+        <span class="status" id="nutrient_status">--</span>
+    </div>
+
+    <div class="card">
+        <h3><i class="fas fa-tractor"></i> Suggested Crops</h3>
+        <p>Optimal for your soil</p>
+        <div class="value" id="result_crops">--</div>
+        <span class="status good">Best Match</span>
+    </div>
+</div>
+
+<!-- ---------------- CHARTS ---------------- -->
+<div class="chart-container">
+    <div class="chart-box">
+        <h2><i class="fas fa-chart-pie"></i> Soil Composition</h2>
+        <div class="chart-placeholder">
+            <canvas id="soilChart"></canvas>
+        </div>
+    </div>
+    
+    <div class="chart-box">
+        <h2><i class="fas fa-chart-line"></i> Nutrient Trends</h2>
+        <div class="chart-placeholder">
+            <canvas id="nutrientChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- ---------------- RECOMMENDATIONS ---------------- -->
+<div class="recommendations">
+    <h2><i class="fas fa-lightbulb"></i> Recommended Crops</h2>
+    <div class="crop-grid" id="cropRecommendations">
+        <!-- Crop cards will be generated here -->
+    </div>
+</div>
+
+<!-- ---------------- FOOTER ---------------- -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-column">
+            <h3>About AgriSmart</h3>
+            <p>AgriSmart leverages cutting-edge technology to provide farmers with actionable insights for smarter agriculture decisions.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Control Panel</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Resources</h3>
+            <ul class="footer-links">
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Case Studies</a></li>
+                <li><a href="#">Documentation</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Community</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Farm Road, Agritown, USA</p>
+            <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            <p><i class="fas fa-envelope"></i> info@agrismart.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 AgriSmart Smart Agriculture Monitor. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<!-- ---------------- JAVASCRIPT ---------------- -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// DOM Elements
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('pdfFile');
+const loadingIndicator = document.getElementById('loadingIndicator');
+const analyzeButton = document.getElementById('analyzeButton');
+
+// Upload area click handler
+uploadArea.addEventListener('click', () => {
+    fileInput.click();
+});
+
+// File input change handler - reset upload area when new file is selected
+fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+        const fileName = e.target.files[0].name;
+        uploadArea.innerHTML = `
+            <i class="fas fa-file-pdf" style="color:#e74c3c"></i>
+            <p>${fileName}</p>
+            <span>Click the analyze button to process</span>
+        `;
+        
+        // Enable the analyze button
+        analyzeButton.disabled = false;
+    }
+});
+
+// Create animated background elements
+function createBackgroundElements() {
+    const bg = document.getElementById('animatedBg');
+    const colors = [
+        'rgba(76, 175, 80, 0.1)',
+        'rgba(46, 125, 50, 0.08)',
+        'rgba(106, 194, 110, 0.12)',
+        'rgba(27, 94, 32, 0.06)'
+    ];
+    
+    for (let i = 0; i < 15; i++) {
+        const element = document.createElement('div');
+        element.classList.add('bg-element');
+        
+        // Random properties
+        const size = Math.random() * 100 + 50;
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const delay = Math.random() * 15;
+        const duration = Math.random() * 10 + 15;
+        
+        element.style.width = `${size}px`;
+        element.style.height = `${size}px`;
+        element.style.left = `${left}%`;
+        element.style.top = `${top}%`;
+        element.style.background = color;
+        element.style.animationDelay = `${delay}s`;
+        element.style.animationDuration = `${duration}s`;
+        
+        bg.appendChild(element);
+    }
+}
+
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
+// Mobile menu toggle
+document.querySelector('.mobile-menu').addEventListener('click', function() {
+    document.querySelector('nav ul').classList.toggle('active');
+});
+
+// Soil types and their characteristics
+const soilData = {
+    "sandy": { ph: [5.5, 7.0], nutrients: "Low", crops: ["Carrots", "Potatoes", "Lettuce"] },
+    "clay": { ph: [6.0, 7.5], nutrients: "Medium", crops: ["Cabbage", "Broccoli", "Cauliflower"] },
+    "loamy": { ph: [6.0, 7.0], nutrients: "High", crops: ["Tomatoes", "Peppers", "Beans"] },
+    "silty": { ph: [6.0, 7.5], nutrients: "Medium", crops: ["Wheat", "Rice", "Barley"] },
+    "peaty": { ph: [4.0, 6.0], nutrients: "High", crops: ["Potatoes", "Carrots", "Onions"] },
+    "chalky": { ph: [7.0, 8.5], nutrients: "Low", crops: ["Spinach", "Beets", "Cabbage"] }
+};
+
+// Crop data with images
+const cropData = [
+    { name: "Wheat", suitability: "High", image: "🌾" },
+    { name: "Corn", suitability: "High", image: "🌽" },
+    { name: "Rice", suitability: "Medium", image: "🍚" },
+    { name: "Soybean", suitability: "High", image: "🫘" },
+    { name: "Tomato", suitability: "Medium", image: "🍅" },
+    { name: "Potato", suitability: "High", image: "🥔" },
+    { name: "Carrot", suitability: "Medium", image: "🥕" },
+    { name: "Lettuce", suitability: "Low", image: "🥬" }
+];
+
+// Initialize charts
+let soilChart, nutrientChart;
+
+function initializeCharts() {
+    const soilCtx = document.getElementById('soilChart').getContext('2d');
+    const nutrientCtx = document.getElementById('nutrientChart').getContext('2d');
+    
+    soilChart = new Chart(soilCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Sand', 'Clay', 'Silt', 'Organic Matter'],
+            datasets: [{
+                data: [40, 25, 20, 15],
+                backgroundColor: ['#f39c12', '#e74c3c', '#3498db', '#2ecc71']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+    
+    // Initialize line chart for nutrient trends
+    nutrientChart = new Chart(nutrientCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Nitrogen (ppm)',
+                data: [45, 52, 48, 60, 55, 58],
+                borderColor: '#2e7d32',
+                backgroundColor: 'rgba(46, 125, 50, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Phosphorus (ppm)',
+                data: [60, 58, 65, 70, 62, 68],
+                borderColor: '#ff9800',
+                backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Potassium (ppm)',
+                data: [55, 50, 58, 65, 60, 62],
+                borderColor: '#2196f3',
+                backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Nutrient Level (ppm)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Generate random soil data
+function generateSoilData() {
+    const soilTypes = Object.keys(soilData);
+    const randomSoil = soilTypes[Math.floor(Math.random() * soilTypes.length)];
+    const soil = soilData[randomSoil];
+    
+    // Generate random pH within the soil type's range
+    const minPh = soil.ph[0];
+    const maxPh = soil.ph[1];
+    const randomPh = (Math.random() * (maxPh - minPh) + minPh).toFixed(1);
+    
+    // Generate nutrient score based on soil type
+    let nutrientScore;
+    if (soil.nutrients === "High") nutrientScore = Math.floor(Math.random() * 20) + 80;
+    else if (soil.nutrients === "Medium") nutrientScore = Math.floor(Math.random() * 20) + 60;
+    else nutrientScore = Math.floor(Math.random() * 20) + 40;
+    
+    return {
+        soilType: randomSoil,
+        ph: randomPh,
+        nutrientScore: nutrientScore,
+        crops: soil.crops
+    };
+}
+
+// Update charts with new data
+function updateCharts(soilData) {
+    // Update soil composition chart
+    const soilComposition = {
+        "sandy": [60, 15, 15, 10],
+        "clay": [15, 60, 15, 10],
+        "loamy": [40, 20, 30, 10],
+        "silty": [20, 10, 60, 10],
+        "peaty": [30, 10, 20, 40],
+        "chalky": [50, 30, 10, 10]
+    };
+    
+    soilChart.data.datasets[0].data = soilComposition[soilData.soilType];
+    soilChart.update();
+    
+    // Update nutrient line chart based on soil type
+    const nutrientTrends = {
+        "sandy": {
+            nitrogen: [30, 35, 28, 40, 32, 38],
+            phosphorus: [35, 32, 38, 42, 36, 40],
+            potassium: [25, 28, 22, 30, 26, 32]
+        },
+        "clay": {
+            nitrogen: [50, 55, 48, 60, 52, 58],
+            phosphorus: [60, 58, 65, 70, 62, 68],
+            potassium: [45, 50, 42, 55, 48, 52]
+        },
+        "loamy": {
+            nitrogen: [70, 75, 68, 80, 72, 78],
+            phosphorus: [75, 72, 78, 82, 76, 80],
+            potassium: [65, 70, 62, 75, 68, 72]
+        },
+        "silty": {
+            nitrogen: [55, 60, 52, 65, 58, 62],
+            phosphorus: [65, 62, 68, 72, 66, 70],
+            potassium: [50, 55, 48, 60, 52, 58]
+        },
+        "peaty": {
+            nitrogen: [75, 80, 72, 85, 78, 82],
+            phosphorus: [80, 78, 82, 88, 80, 85],
+            potassium: [70, 75, 68, 80, 72, 78]
+        },
+        "chalky": {
+            nitrogen: [40, 45, 38, 50, 42, 48],
+            phosphorus: [45, 42, 48, 52, 46, 50],
+            potassium: [35, 40, 32, 45, 38, 42]
+        }
+    };
+    
+    const trends = nutrientTrends[soilData.soilType];
+    
+    // Add some random variation to make it look more realistic
+    const variation = () => Math.floor(Math.random() * 10) - 5;
+    
+    nutrientChart.data.datasets[0].data = trends.nitrogen.map(val => Math.max(10, Math.min(90, val + variation())));
+    nutrientChart.data.datasets[1].data = trends.phosphorus.map(val => Math.max(10, Math.min(90, val + variation())));
+    nutrientChart.data.datasets[2].data = trends.potassium.map(val => Math.max(10, Math.min(90, val + variation())));
+    
+    nutrientChart.update();
+}
+
+// Generate crop recommendations
+function generateCropRecommendations(soilData) {
+    const cropGrid = document.getElementById('cropRecommendations');
+    cropGrid.innerHTML = '';
+    
+    // Sort crops by suitability (random for demo)
+    const shuffledCrops = [...cropData].sort(() => 0.5 - Math.random());
+    
+    // Take first 4 crops
+    const recommendedCrops = shuffledCrops.slice(0, 4);
+    
+    recommendedCrops.forEach(crop => {
+        const cropCard = document.createElement('div');
+        cropCard.className = 'crop-card';
+        cropCard.innerHTML = `
+            <div style="font-size: 48px; margin-bottom: 10px;">${crop.image}</div>
+            <h4>${crop.name}</h4>
+            <p>Suitability: ${crop.suitability}</p>
+        `;
+        cropGrid.appendChild(cropCard);
+    });
+}
+
+// Reset upload area to initial state
+function resetUploadArea() {
+    uploadArea.innerHTML = `
+        <i class="fas fa-file-upload"></i>
+        <p>Drag & Drop your PDF here</p>
+        <span>or click to browse files</span>
+    `;
+    fileInput.value = '';
+}
+
+// Upload PDF function
+function uploadPDF() {
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        alert("Please select a PDF file.");
+        return;
+    }
+    
+    // Disable the analyze button to prevent multiple uploads
+    analyzeButton.disabled = true;
+    
+    // Show loading indicator
+    loadingIndicator.style.display = 'block';
+    
+    // Simulate processing delay
+    setTimeout(() => {
+        // Generate random soil data
+        const soilData = generateSoilData();
+        
+        // Update UI with results
+        document.getElementById('result_ph').innerText = soilData.ph;
+        
+        // Determine pH status
+        let phStatus = '';
+        if (soilData.ph < 6.0) {
+            phStatus = '<span class="status poor">Acidic</span>';
+        } else if (soilData.ph > 7.5) {
+            phStatus = '<span class="status poor">Alkaline</span>';
+        } else {
+            phStatus = '<span class="status good">Optimal</span>';
+        }
+        document.getElementById('ph_status').innerHTML = phStatus;
+        
+        document.getElementById('result_nutrients').innerText = `${soilData.nutrientScore}/100`;
+        
+        // Determine nutrient status
+        let nutrientStatus = '';
+        if (soilData.nutrientScore >= 80) {
+            nutrientStatus = '<span class="status good">Excellent</span>';
+        } else if (soilData.nutrientScore >= 60) {
+            nutrientStatus = '<span class="status moderate">Good</span>';
+        } else {
+            nutrientStatus = '<span class="status poor">Needs Improvement</span>';
+        }
+        document.getElementById('nutrient_status').innerHTML = nutrientStatus;
+        
+        document.getElementById('result_crops').innerText = soilData.crops.join(', ');
+        
+        // Update charts with the new soil data
+        updateCharts(soilData);
+        
+        // Generate crop recommendations
+        generateCropRecommendations(soilData);
+        
+        // Hide loading indicator
+        loadingIndicator.style.display = 'none';
+        
+        // Reset upload area for next file
+        resetUploadArea();
+        
+        // Show success message
+        alert(`PDF analyzed successfully! Detected soil type: ${soilData.soilType.charAt(0).toUpperCase() + soilData.soilType.slice(1)}`);
+    }, 2000);
+}
+
+// Initialize the page
+window.onload = function() {
+    createBackgroundElements();
+    initializeCharts();
+};
+</script>
+</body>
+</html>
